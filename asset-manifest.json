@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/xcaption/static/css/main.f5a33aac.css",
+    "main.js": "/xcaption/static/js/main.79c9ca5a.js",
+    "index.html": "/xcaption/index.html",
+    "main.f5a33aac.css.map": "/xcaption/static/css/main.f5a33aac.css.map",
+    "main.79c9ca5a.js.map": "/xcaption/static/js/main.79c9ca5a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f5a33aac.css",
+    "static/js/main.79c9ca5a.js"
+  ]
+}
