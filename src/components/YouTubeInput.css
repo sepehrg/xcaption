@@ -1,0 +1,117 @@
+.youtube-input-container {
+  margin-bottom: 30px;
+}
+
+.youtube-form {
+  width: 100%;
+}
+
+.input-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.youtube-input {
+  flex: 1;
+  min-width: 300px;
+  padding: 14px 16px; /* Slightly larger touch target */
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background: white;
+  /* Better mobile input handling */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.youtube-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.youtube-input:disabled {
+  background: #f8f9fa;
+  cursor: not-allowed;
+}
+
+.submit-button {
+  padding: 14px 24px; /* Larger touch target */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  /* Minimum touch target size */
+  min-height: 48px;
+}
+
+.submit-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.submit-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.error-message {
+  margin-top: 10px;
+  padding: 12px;
+  background: #ffebee;
+  border: 1px solid #e57373;
+  border-radius: 8px;
+  color: #c62828;
+  font-size: 0.9rem;
+}
+
+/* Tablet styles */
+@media (max-width: 768px) {
+  .youtube-input {
+    min-width: 250px;
+    font-size: 1rem;
+  }
+  
+  .submit-button {
+    padding: 14px 20px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 480px) {
+  .input-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .youtube-input {
+    min-width: auto;
+    width: 100%;
+    padding: 16px; /* Larger touch area */
+    font-size: 1.1rem; /* Slightly larger for readability */
+    border-radius: 10px;
+  }
+  
+  .submit-button {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    min-height: 52px; /* Larger touch target */
+  }
+  
+  .error-message {
+    font-size: 1rem;
+    padding: 14px;
+  }
+}

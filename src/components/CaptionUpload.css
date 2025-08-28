@@ -1,0 +1,66 @@
+.caption-upload {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.upload-button {
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 8px;
+  /* Minimum touch target size */
+  min-height: 48px;
+  /* Better mobile touch */
+  -webkit-tap-highlight-color: transparent;
+}
+
+.upload-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.upload-help {
+  display: block;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .caption-upload {
+    margin-bottom: 15px;
+  }
+  
+  .upload-button {
+    padding: 16px 24px;
+    font-size: 1.05rem;
+    min-height: 52px;
+    border-radius: 10px;
+  }
+  
+  .upload-help {
+    font-size: 0.9rem;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .upload-button {
+    width: 100%;
+    max-width: 300px;
+    padding: 18px 20px;
+    font-size: 1.1rem;
+    min-height: 56px;
+  }
+  
+  .upload-help {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+}
