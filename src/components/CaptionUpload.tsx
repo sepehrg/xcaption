@@ -28,7 +28,7 @@ const CaptionUpload: React.FC<CaptionUploadProps> = ({ onCaptionsLoad }) => {
       <input
         ref={fileInputRef}
         type="file"
-        accept=".srt,.vtt"
+        accept=".srt,.vtt,text/plain,text/srt,text/vtt,application/x-subrip,.txt"
         onChange={handleFileUpload}
         style={{ display: "none" }}
       />
@@ -36,10 +36,12 @@ const CaptionUpload: React.FC<CaptionUploadProps> = ({ onCaptionsLoad }) => {
         onClick={() => fileInputRef.current?.click()}
         className="upload-button"
       >
-        📁 Upload Caption File (SRT/VTT)
+        📁 Upload Caption File
       </button>
       <small className="upload-help">
-        Upload a subtitle file to see interactive captions
+        Choose SRT, VTT, or TXT files with subtitle content
+        <br />
+        💡 On iPhone: Save captions as .txt if .srt doesn't work
       </small>
     </div>
   );
