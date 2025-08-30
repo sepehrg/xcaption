@@ -1,7 +1,7 @@
 .captions-section {
   background: #f8f9fa;
   border-radius: 12px;
-  padding: 15px;
+  padding: 12px;
   height: fit-content;
   max-height: 600px;
   overflow-y: auto;
@@ -33,7 +33,7 @@
 }
 
 .caption-item {
-  padding: 8px 12px;
+  padding: 10px 16px;
   border-radius: 8px;
   cursor: pointer;
   background: white;
@@ -45,7 +45,7 @@
   /* Better mobile touch */
   -webkit-tap-highlight-color: transparent;
   /* Minimum touch target size */
-  min-height: 40px;
+  min-height: 42px;
   display: block;
 }
 
@@ -81,7 +81,7 @@
 .caption-timestamp {
   position: absolute;
   top: 50%;
-  right: 8px;
+  right: 12px;
   transform: translateY(-50%);
   font-size: 0.65rem;
   font-weight: 400;
