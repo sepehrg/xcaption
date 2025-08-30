@@ -21,9 +21,20 @@
   font-size: 1rem;
   transition: all 0.2s ease;
   background: white;
+  color: #333;
   /* Better mobile input handling */
   -webkit-appearance: none;
   appearance: none;
+}
+
+[data-theme="dark"] .youtube-input {
+  background: #34495e;
+  border-color: #4a5f7a;
+  color: #ecf0f1;
+}
+
+[data-theme="dark"] .youtube-input::placeholder {
+  color: #95a5a6;
 }
 
 .youtube-input:focus {
@@ -32,9 +43,19 @@
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
+[data-theme="dark"] .youtube-input:focus {
+  border-color: #5dade2;
+  box-shadow: 0 0 0 3px rgba(93, 173, 226, 0.1);
+}
+
 .youtube-input:disabled {
   background: #f8f9fa;
   cursor: not-allowed;
+}
+
+[data-theme="dark"] .youtube-input:disabled {
+  background: #2c3e50;
+  color: #7f8c8d;
 }
 
 .submit-button {
@@ -72,6 +93,13 @@
   border-radius: 8px;
   color: #c62828;
   font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .error-message {
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid #e74c3c;
+  color: #e74c3c;
 }
 
 /* Tablet styles */

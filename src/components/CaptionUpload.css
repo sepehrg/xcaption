@@ -29,6 +29,11 @@
   display: block;
   color: #666;
   font-size: 0.85rem;
+  transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .upload-help {
+  color: #bdc3c7;
 }
 
 /* Mobile styles */

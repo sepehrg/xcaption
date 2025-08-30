@@ -85,7 +85,7 @@ const CaptionDisplay: React.FC<CaptionDisplayProps> = ({
           <small>
             This video doesn't have captions or they couldn't be fetched
           </small>
-          <div style={{ marginTop: "10px", fontSize: "0.8rem", color: "#666" }}>
+          <div className="no-captions-note">
             <strong>💡 Note:</strong> Captions will appear here when a video is
             loaded
           </div>
@@ -96,9 +96,7 @@ const CaptionDisplay: React.FC<CaptionDisplayProps> = ({
 
   return (
     <div className="captions-section" ref={containerRef}>
-      <h3 className="captions-title">
-        Interactive Captions ({captions.length} segments)
-      </h3>
+      <h3 className="captions-title">Captions</h3>
 
       <div className="captions-list">
         {captions.map((caption, index) => {

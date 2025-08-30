@@ -1,8 +1,30 @@
+/* CSS Variables for theming */
+:root {
+  --bg-gradient-start: #667eea;
+  --bg-gradient-end: #764ba2;
+  --content-bg: white;
+  --text-primary: #2c3e50;
+  --text-secondary: #666;
+  --border-color: rgba(255, 255, 255, 0.2);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+  --bg-gradient-start: #1a1a2e;
+  --bg-gradient-end: #16213e;
+  --content-bg: #2c3e50;
+  --text-primary: #ecf0f1;
+  --text-secondary: #bdc3c7;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
 .app {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
   /* Prevent horizontal scroll on mobile */
   overflow-x: hidden;
+  transition: background 0.3s ease;
 }
 
 .container {
@@ -26,6 +48,14 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .app-title {
+  background: linear-gradient(45deg, #ecf0f1, #bdc3c7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .app-subtitle {
@@ -40,12 +70,13 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 30px;
-  background: white;
+  background: var(--content-bg);
   border-radius: 15px;
   padding: 30px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 30px var(--shadow-color);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
 }
 
 @media (min-width: 768px) {

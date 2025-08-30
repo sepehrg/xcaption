@@ -3,6 +3,7 @@ import YouTubeInput from "./components/YouTubeInput";
 import YouTubePlayer from "./components/YouTubePlayer";
 import CaptionDisplay from "./components/CaptionDisplay";
 import CaptionUpload from "./components/CaptionUpload";
+import ThemeToggle from "./components/ThemeToggle";
 import { fetchCaptions, CLICKED_CAPTION_TIMEOUT } from "./utils/captionService";
 import { Caption, YouTubePlayerInstance } from "./types";
 import "./App.css";
@@ -72,24 +73,15 @@ const App: React.FC = () => {
       // Set seeking flag to allow time updates during seek
       setIsSeeking(true);
 
-      // Check if video is paused and auto-play after seeking
-      const playerState = playerRef.current.getPlayerState();
-      const isPaused = playerState === PLAYER_STATE.PAUSED;
-
       try {
         // Method 1: Standard seek
         playerRef.current.seekTo(time, true);
 
-        // Method 2: Small offset to ensure proper seeking and auto-play if paused
+        // Method 2: Small offset to ensure proper seeking
         setTimeout(() => {
           if (playerRef.current) {
             playerRef.current.seekTo(time, true);
             setCurrentTime(time);
-
-            // Auto-play if video was paused
-            if (isPaused) {
-              playerRef.current.playVideo();
-            }
           }
         }, 100);
       } catch (error) {
@@ -109,6 +101,7 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
+      <ThemeToggle />
       <div className="container">
         <header className="app-header">
           <h1 className="app-title">XCaption</h1>
