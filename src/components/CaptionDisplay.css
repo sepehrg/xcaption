@@ -5,9 +5,13 @@
   height: fit-content;
   max-height: 600px;
   overflow-y: auto;
+  overflow-x: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   border: 1px solid #e9ecef;
   transition: all 0.3s ease;
+  /* Scroll performance optimizations */
+  scroll-behavior: auto;
+  overscroll-behavior: contain;
 }
 
 [data-theme="dark"] .captions-section {
@@ -53,8 +57,9 @@
   border: 2px solid transparent;
   position: relative;
   overflow: hidden;
-  transition: background 0.3s ease;
-  transform: none;
+  /* Optimize for scrolling performance */
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
   /* Better mobile touch */
   -webkit-tap-highlight-color: transparent;
   /* Minimum touch target size */
@@ -68,8 +73,6 @@
 
 .caption-item:hover {
   background: rgba(102, 126, 234, 0.05);
-  transform: none;
-  transition: background 0.3s ease;
 }
 
 [data-theme="dark"] .caption-item:hover {

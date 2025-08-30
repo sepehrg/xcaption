@@ -35,25 +35,37 @@ const CaptionDisplay: React.FC<CaptionDisplayProps> = ({
     );
   }
 
-  // Scroll to active caption
+  // Optimized scroll to active caption
   useEffect(() => {
-    if (activeCaptionRef.current && containerRef.current) {
-      const container = containerRef.current;
-      const activeElement = activeCaptionRef.current;
+    if (!activeCaptionRef.current || !containerRef.current) return;
 
+    const container = containerRef.current;
+    const activeElement = activeCaptionRef.current;
+
+    // Use requestAnimationFrame for better performance
+    const scrollToActive = () => {
       const containerTop = container.scrollTop;
       const containerBottom = containerTop + container.clientHeight;
       const elementTop = activeElement.offsetTop;
       const elementBottom = elementTop + activeElement.clientHeight;
 
-      // Check if element is not fully visible
-      if (elementTop < containerTop || elementBottom > containerBottom) {
+      // Only scroll if element is completely out of view (with buffer)
+      const buffer = 50; // pixels
+      const isAboveView = elementTop < containerTop - buffer;
+      const isBelowView = elementBottom > containerBottom + buffer;
+
+      if (isAboveView || isBelowView) {
+        // Use instant scroll to reduce performance impact
         activeElement.scrollIntoView({
-          behavior: "smooth",
+          behavior: "auto", // Changed from "smooth" to "auto"
           block: "center",
         });
       }
-    }
+    };
+
+    // Debounce scroll updates
+    const timeoutId = setTimeout(scrollToActive, 100);
+    return () => clearTimeout(timeoutId);
   }, [activeCaption]);
 
   const handleCaptionClick = (caption: Caption) => {
