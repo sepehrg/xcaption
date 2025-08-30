@@ -282,9 +282,9 @@
   }
   
   .caption-item {
-    padding: 6px 10px;
+    padding: 12px 14px; /* Increased padding for better touch targets */
     border-radius: 8px;
-    min-height: 36px;
+    min-height: 48px; /* Increased min-height for easier tapping */
   }
   
   .caption-text {
@@ -322,9 +322,9 @@
   }
   
   .caption-item {
-    padding: 6px 8px;
-    border-radius: 6px;
-    min-height: 32px;
+    padding: 14px 12px;
+    border-radius: 8px;
+    min-height: 52px;
   }
   
   .caption-text {
