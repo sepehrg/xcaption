@@ -8,6 +8,8 @@ A React TypeScript application that provides interactive YouTube video captions.
 - 📝 **Interactive Captions**: Click on any caption to jump to that moment
 - 🎯 **Real-time Highlighting**: Current caption is highlighted as the video plays
 - 📱 **Responsive Design**: Works seamlessly on desktop and mobile devices
+- 🌙 **Dark/Light Theme**: Toggle between dark and light themes
+- 📤 **Manual Caption Upload**: Upload SRT/VTT files for any video
 - ⚡ **TypeScript**: Fully typed for better development experience
 - 🎨 **Modern UI**: Beautiful gradient design with smooth animations
 
@@ -35,30 +37,21 @@ npm install
 3. Start the development server:
 
 ```bash
-npm run dev
+npm start
 ```
 
 4. Open [http://localhost:3000](http://localhost:3000) to view the app in your browser.
 
-**Alternative:** Run frontend and backend separately:
-
-```bash
-# Terminal 1 - Backend API
-npm run server
-
-# Terminal 2 - Frontend React app
-npm start
-```
-
 ## Usage
 
 1. **Enter YouTube URL**: Paste any YouTube video URL in the input field
-2. **Load Video**: Click "Load Video" to fetch the video and **real captions**
-3. **Watch & Interact**:
-   - Play the video and watch **demo captions** highlight in real-time
+2. **Load Video**: Click "Load Video" to load the video player
+3. **Upload Captions**: Use the "Upload Caption File" button to upload SRT/VTT files
+4. **Watch & Interact**:
+   - Play the video and watch captions highlight in real-time
    - Click on any caption to jump to that moment in the video
    - Scroll through captions to find specific content
-   - **Note**: Currently shows demo captions due to YouTube restrictions
+   - Toggle between dark and light themes using the switch in the top-right corner
 
 ## Technical Implementation
 
@@ -74,32 +67,28 @@ npm start
 - `YouTubeInput`: Handles URL input and validation
 - `YouTubePlayer`: Integrates YouTube player with time tracking
 - `CaptionDisplay`: Shows interactive captions with highlighting
-- `captionService`: Manages caption fetching and formatting
-
-### Caption Integration
-
-**⚠️ Important Update (August 2024):** YouTube has significantly restricted automated caption access.
-
-**Current Status:**
-
-- 📝 **Demo Mode**: Shows sample interactive captions to demonstrate functionality
-- 🔧 **Technical Challenge**: YouTube's anti-scraping measures block most caption extraction methods
-- 🎯 **Proof of Concept**: All interactive features work perfectly with demo data
-
-**For Real Implementation:**
-
-- 🔑 **YouTube Data API v3**: Requires API key and proper authentication
-- 👥 **Manual Process**: Video owners can provide caption files
-- 🏢 **Enterprise Solutions**: Use official YouTube APIs for production apps
+- `CaptionUpload`: Handles manual caption file uploads
+- `ThemeToggle`: Dark/light theme switching
+- `ThemeContext`: Global theme state management
+- `captionService`: Manages caption parsing and formatting
 
 ## Available Scripts
 
 - `npm start`: Runs the React app in development mode
-- `npm run server`: Runs the backend API server on port 3001
-- `npm run dev`: **Recommended** - Runs both frontend and backend simultaneously
-- `npm build`: Builds the app for production
+- `npm run build`: Builds the app for production
+- `npm run deploy`: Deploys the app to GitHub Pages
 - `npm test`: Launches the test runner
-- `npm eject`: Ejects from Create React App (not recommended)
+- `npm run eject`: Ejects from Create React App (not recommended)
+
+## Deployment
+
+To deploy the app to GitHub Pages:
+
+```bash
+npm run deploy
+```
+
+This will build the app and deploy it to the `gh-pages` branch of your repository.
 
 ## Browser Compatibility
 
@@ -110,12 +99,13 @@ npm start
 
 ## Future Enhancements
 
-- Real YouTube caption API integration
+- Automatic YouTube caption extraction
 - Multiple language support
 - Caption search functionality
 - Playback speed controls
 - Caption export options
 - Keyboard shortcuts
+- Caption synchronization tools
 
 ## Contributing
 
