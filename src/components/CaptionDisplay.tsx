@@ -113,7 +113,7 @@ const CaptionDisplay: React.FC<CaptionDisplayProps> = ({
               title="Click to jump to this moment in the video"
             >
               <div className="caption-timestamp">
-                {formatTime(caption.start)} - {formatTime(caption.end)}
+                {formatTime(caption.start)}
               </div>
               <div className="caption-text">{caption.text}</div>
             </div>
