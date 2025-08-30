@@ -268,7 +268,7 @@
 /* Mobile styles */
 @media (max-width: 768px) {
   .captions-section {
-    max-height: 450px;
+    max-height: 70vh;
     padding: 12px;
   }
   
@@ -307,7 +307,7 @@
 /* Small mobile styles */
 @media (max-width: 480px) {
   .captions-section {
-    max-height: 350px;
+    max-height: 70vh;
     padding: 10px;
     border-radius: 10px;
   }

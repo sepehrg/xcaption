@@ -5,28 +5,32 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  /* 16:9 aspect ratio */
+  aspect-ratio: 16 / 9;
 }
 
 .youtube-player {
   width: 100%;
+  height: 100%;
   border-radius: 12px;
 }
 
 .youtube-player iframe {
   border-radius: 12px;
   width: 100%;
-  min-height: 300px;
+  height: 100%;
 }
 
 .youtube-player-placeholder {
   width: 100%;
-  min-height: 400px;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 2px dashed #ccc;
+  /* 16:9 aspect ratio */
+  aspect-ratio: 16 / 9;
 }
 
 .placeholder-content {
@@ -55,14 +59,6 @@
 }
 
 @media (max-width: 768px) {
-  .youtube-player iframe {
-    min-height: 250px;
-  }
-  
-  .youtube-player-placeholder {
-    min-height: 300px;
-  }
-  
   .placeholder-content {
     padding: 20px;
   }
