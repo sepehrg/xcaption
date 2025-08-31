@@ -94,7 +94,6 @@
 /* Tablet styles */
 @media (max-width: 1024px) {
   .container {
-    max-width: 95%;
     padding: 15px;
   }
   
