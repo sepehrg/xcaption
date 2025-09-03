@@ -99,6 +99,97 @@ const App: React.FC = () => {
     setCurrentTime(0);
   };
 
+  // Mobile control functions
+  const navigateToPreviousCaption = useCallback(() => {
+    if (captions.length > 0) {
+      // Find the most recent caption that has started (even if it has ended)
+      const startedCaptions = captions.filter(
+        (caption) => currentTime >= caption.start
+      );
+      let currentCaptionIndex = -1;
+
+      if (startedCaptions.length > 0) {
+        // Get the most recent caption that started
+        const mostRecentCaption = startedCaptions[startedCaptions.length - 1];
+        currentCaptionIndex = captions.findIndex(
+          (caption) => caption.start === mostRecentCaption.start
+        );
+      }
+
+      let previousIndex;
+      if (currentCaptionIndex === -1 || currentCaptionIndex === 0) {
+        // If no caption has started or at first caption, go to last caption
+        previousIndex = captions.length - 1;
+      } else {
+        // Go to previous caption
+        previousIndex = currentCaptionIndex - 1;
+      }
+
+      handleCaptionClick(
+        captions[previousIndex].start,
+        captions[previousIndex]
+      );
+    }
+  }, [captions, currentTime, handleCaptionClick]);
+
+  const navigateToNextCaption = useCallback(() => {
+    if (captions.length > 0) {
+      // Find the most recent caption that has started (even if it has ended)
+      const startedCaptions = captions.filter(
+        (caption) => currentTime >= caption.start
+      );
+      let currentCaptionIndex = -1;
+
+      if (startedCaptions.length > 0) {
+        // Get the most recent caption that started
+        const mostRecentCaption = startedCaptions[startedCaptions.length - 1];
+        currentCaptionIndex = captions.findIndex(
+          (caption) => caption.start === mostRecentCaption.start
+        );
+      }
+
+      let nextIndex;
+      if (
+        currentCaptionIndex === -1 ||
+        currentCaptionIndex === captions.length - 1
+      ) {
+        // If no caption has started or at last caption, go to first caption
+        nextIndex = 0;
+      } else {
+        // Go to next caption
+        nextIndex = currentCaptionIndex + 1;
+      }
+
+      handleCaptionClick(captions[nextIndex].start, captions[nextIndex]);
+    }
+  }, [captions, currentTime, handleCaptionClick]);
+
+  const togglePlayPause = useCallback(() => {
+    if (playerRef.current) {
+      try {
+        const playerState = playerRef.current.getPlayerState();
+        if (playerState === PLAYER_STATE.PLAYING) {
+          playerRef.current.pauseVideo();
+        } else if (playerState === PLAYER_STATE.PAUSED) {
+          playerRef.current.playVideo();
+        }
+      } catch (error) {
+        console.error("Error toggling playback:", error);
+      }
+    }
+  }, [playerRef]);
+
+  const getPlayerState = useCallback(() => {
+    if (playerRef.current) {
+      try {
+        return playerRef.current.getPlayerState();
+      } catch (error) {
+        console.error("Error getting player state:", error);
+      }
+    }
+    return null;
+  }, [playerRef]);
+
   // Keyboard navigation handlers
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
@@ -112,86 +203,14 @@ const App: React.FC = () => {
       }
 
       if (event.code === "Space") {
-        // Toggle play/pause
-        if (playerRef.current) {
-          try {
-            const playerState = playerRef.current.getPlayerState();
-            if (playerState === PLAYER_STATE.PLAYING) {
-              playerRef.current.pauseVideo();
-            } else if (playerState === PLAYER_STATE.PAUSED) {
-              playerRef.current.playVideo();
-            }
-          } catch (error) {
-            console.error("Error toggling playback:", error);
-          }
-        }
+        togglePlayPause();
       } else if (event.code === "ArrowUp") {
-        // Navigate to previous caption
-        if (captions.length > 0) {
-          // Find the most recent caption that has started (even if it has ended)
-          const startedCaptions = captions.filter(
-            (caption) => currentTime >= caption.start
-          );
-          let currentCaptionIndex = -1;
-
-          if (startedCaptions.length > 0) {
-            // Get the most recent caption that started
-            const mostRecentCaption =
-              startedCaptions[startedCaptions.length - 1];
-            currentCaptionIndex = captions.findIndex(
-              (caption) => caption.start === mostRecentCaption.start
-            );
-          }
-
-          let previousIndex;
-          if (currentCaptionIndex === -1 || currentCaptionIndex === 0) {
-            // If no caption has started or at first caption, go to last caption
-            previousIndex = captions.length - 1;
-          } else {
-            // Go to previous caption
-            previousIndex = currentCaptionIndex - 1;
-          }
-
-          handleCaptionClick(
-            captions[previousIndex].start,
-            captions[previousIndex]
-          );
-        }
+        navigateToPreviousCaption();
       } else if (event.code === "ArrowDown") {
-        // Navigate to next caption
-        if (captions.length > 0) {
-          // Find the most recent caption that has started (even if it has ended)
-          const startedCaptions = captions.filter(
-            (caption) => currentTime >= caption.start
-          );
-          let currentCaptionIndex = -1;
-
-          if (startedCaptions.length > 0) {
-            // Get the most recent caption that started
-            const mostRecentCaption =
-              startedCaptions[startedCaptions.length - 1];
-            currentCaptionIndex = captions.findIndex(
-              (caption) => caption.start === mostRecentCaption.start
-            );
-          }
-
-          let nextIndex;
-          if (
-            currentCaptionIndex === -1 ||
-            currentCaptionIndex === captions.length - 1
-          ) {
-            // If no caption has started or at last caption, go to first caption
-            nextIndex = 0;
-          } else {
-            // Go to next caption
-            nextIndex = currentCaptionIndex + 1;
-          }
-
-          handleCaptionClick(captions[nextIndex].start, captions[nextIndex]);
-        }
+        navigateToNextCaption();
       }
     },
-    [captions, currentTime, playerRef, handleCaptionClick]
+    [togglePlayPause, navigateToPreviousCaption, navigateToNextCaption]
   );
 
   // Set up keyboard event listeners
@@ -229,6 +248,38 @@ const App: React.FC = () => {
             isLoading={isLoadingCaptions}
             lastClickedCaption={lastClickedCaption}
           />
+
+          {/* Mobile control buttons */}
+          <div className="mobile-controls">
+            <button
+              className="mobile-control-btn"
+              onClick={navigateToPreviousCaption}
+              disabled={!captions.length}
+              title="Previous caption (↑)"
+            >
+              ⬆️
+            </button>
+            <button
+              className="mobile-control-btn"
+              onClick={navigateToNextCaption}
+              disabled={!captions.length}
+              title="Next caption (↓)"
+            >
+              ⬇️
+            </button>
+            <button
+              className="mobile-control-btn"
+              onClick={togglePlayPause}
+              disabled={!captions.length}
+              title={
+                getPlayerState() === 1
+                  ? "Pause video (Space)"
+                  : "Play video (Space)"
+              }
+            >
+              {getPlayerState() === 1 ? "⏸️" : "▶️"}
+            </button>
+          </div>
         </main>
       </div>
     </div>

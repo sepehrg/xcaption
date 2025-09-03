@@ -143,3 +143,89 @@
     border-radius: 8px;
   }
 }
+
+/* Mobile control buttons */
+.mobile-controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  background: var(--content-bg);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+
+.mobile-control-btn {
+  background: white;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 48px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+}
+
+[data-theme="dark"] .mobile-control-btn {
+  background: #2c3e50;
+  border: 2px solid #5dade2;
+  color: #ecf0f1;
+  box-shadow: 0 2px 8px rgba(93, 173, 226, 0.1);
+}
+
+.mobile-control-btn:hover {
+  background: #667eea;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="dark"] .mobile-control-btn:hover {
+  background: #5dade2;
+  color: white;
+  box-shadow: 0 4px 12px rgba(93, 173, 226, 0.2);
+}
+
+.mobile-control-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
+}
+
+.mobile-control-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  background: #f1f1f1;
+  border-color: #ddd;
+  color: #999;
+}
+
+[data-theme="dark"] .mobile-control-btn:disabled {
+  background: #1a252f;
+  border-color: #2c3e50;
+  color: #7f8c8d;
+}
+
+.mobile-control-btn:disabled:hover {
+  transform: none;
+  box-shadow: none;
+  background: #f1f1f1;
+  border-color: #ddd;
+}
+
+[data-theme="dark"] .mobile-control-btn:disabled:hover {
+  background: #1a252f;
+  border-color: #2c3e50;
+}
+
+/* Hide mobile controls on desktop */
+@media (min-width: 769px) {
+  .mobile-controls {
+    display: none;
+  }
+}

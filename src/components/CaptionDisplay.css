@@ -136,6 +136,10 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
+.caption-item.active .caption-text {
+  color: white;
+}
+
 .caption-text {
   font-size: 0.9rem;
   line-height: 1.4;
@@ -238,6 +242,8 @@
 [data-theme="dark"] .no-captions-note {
   color: #95a5a6;
 }
+
+
 
 /* Scrollbar styling */
 .captions-section::-webkit-scrollbar {
