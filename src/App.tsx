@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import YouTubeInput from "./components/YouTubeInput";
 import YouTubePlayer from "./components/YouTubePlayer";
 import CaptionDisplay from "./components/CaptionDisplay";
@@ -98,6 +98,109 @@ const App: React.FC = () => {
     setCaptions(uploadedCaptions);
     setCurrentTime(0);
   };
+
+  // Keyboard navigation handlers
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      // Prevent default behavior if we're handling the key
+      if (
+        event.code === "ArrowUp" ||
+        event.code === "ArrowDown" ||
+        event.code === "Space"
+      ) {
+        event.preventDefault();
+      }
+
+      if (event.code === "Space") {
+        // Toggle play/pause
+        if (playerRef.current) {
+          try {
+            const playerState = playerRef.current.getPlayerState();
+            if (playerState === PLAYER_STATE.PLAYING) {
+              playerRef.current.pauseVideo();
+            } else if (playerState === PLAYER_STATE.PAUSED) {
+              playerRef.current.playVideo();
+            }
+          } catch (error) {
+            console.error("Error toggling playback:", error);
+          }
+        }
+      } else if (event.code === "ArrowUp") {
+        // Navigate to previous caption
+        if (captions.length > 0) {
+          // Find the most recent caption that has started (even if it has ended)
+          const startedCaptions = captions.filter(
+            (caption) => currentTime >= caption.start
+          );
+          let currentCaptionIndex = -1;
+
+          if (startedCaptions.length > 0) {
+            // Get the most recent caption that started
+            const mostRecentCaption =
+              startedCaptions[startedCaptions.length - 1];
+            currentCaptionIndex = captions.findIndex(
+              (caption) => caption.start === mostRecentCaption.start
+            );
+          }
+
+          let previousIndex;
+          if (currentCaptionIndex === -1 || currentCaptionIndex === 0) {
+            // If no caption has started or at first caption, go to last caption
+            previousIndex = captions.length - 1;
+          } else {
+            // Go to previous caption
+            previousIndex = currentCaptionIndex - 1;
+          }
+
+          handleCaptionClick(
+            captions[previousIndex].start,
+            captions[previousIndex]
+          );
+        }
+      } else if (event.code === "ArrowDown") {
+        // Navigate to next caption
+        if (captions.length > 0) {
+          // Find the most recent caption that has started (even if it has ended)
+          const startedCaptions = captions.filter(
+            (caption) => currentTime >= caption.start
+          );
+          let currentCaptionIndex = -1;
+
+          if (startedCaptions.length > 0) {
+            // Get the most recent caption that started
+            const mostRecentCaption =
+              startedCaptions[startedCaptions.length - 1];
+            currentCaptionIndex = captions.findIndex(
+              (caption) => caption.start === mostRecentCaption.start
+            );
+          }
+
+          let nextIndex;
+          if (
+            currentCaptionIndex === -1 ||
+            currentCaptionIndex === captions.length - 1
+          ) {
+            // If no caption has started or at last caption, go to first caption
+            nextIndex = 0;
+          } else {
+            // Go to next caption
+            nextIndex = currentCaptionIndex + 1;
+          }
+
+          handleCaptionClick(captions[nextIndex].start, captions[nextIndex]);
+        }
+      }
+    },
+    [captions, currentTime, playerRef, handleCaptionClick]
+  );
+
+  // Set up keyboard event listeners
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown]);
 
   return (
     <div className="app">

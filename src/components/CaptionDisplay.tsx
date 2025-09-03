@@ -100,6 +100,7 @@ const CaptionDisplay: React.FC<CaptionDisplayProps> = ({
         {captions.map((caption, index) => {
           const isActive =
             activeCaption && activeCaption.start === caption.start;
+
           return (
             <div
               key={index}
