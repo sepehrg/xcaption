@@ -13,58 +13,44 @@ const CaptionDisplay: React.FC<CaptionDisplayProps> = ({
   const activeCaptionRef = useRef<HTMLDivElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Find captions that match the current time with tolerance for precision
-  const candidateCaptions = captions.filter(
-    (caption) =>
-      currentTime >= caption.start - TIME_TOLERANCE &&
-      currentTime <= caption.end + TIME_TOLERANCE
-  );
-
-  // Prioritize the last clicked caption if it's still valid at current time
+  // Find active caption - keep highlighting until next caption starts
   let activeCaption: Caption | null = null;
 
-  if (lastClickedCaption && candidateCaptions.includes(lastClickedCaption)) {
+  // Prioritize the last clicked caption if it's still valid at current time
+  if (
+    lastClickedCaption &&
+    currentTime >= lastClickedCaption.start - TIME_TOLERANCE &&
+    currentTime <= lastClickedCaption.end + TIME_TOLERANCE
+  ) {
     activeCaption = lastClickedCaption;
-  } else if (candidateCaptions.length > 0) {
-    // If multiple captions, pick the one with start time closest to current time
-    activeCaption = candidateCaptions.reduce((closest, current) =>
-      Math.abs(current.start - currentTime) <
-      Math.abs(closest.start - currentTime)
-        ? current
-        : closest
+  } else {
+    // Find the most recent caption that has started (and keep it highlighted until next one starts)
+    const startedCaptions = captions.filter(
+      (caption) => currentTime >= caption.start
     );
+    if (startedCaptions.length > 0) {
+      // Get the most recent caption that started
+      activeCaption = startedCaptions[startedCaptions.length - 1];
+    }
   }
 
-  // Optimized scroll to active caption
+  // Auto-scroll to keep active caption centered
   useEffect(() => {
     if (!activeCaptionRef.current || !containerRef.current) return;
 
     const container = containerRef.current;
     const activeElement = activeCaptionRef.current;
 
-    // Use requestAnimationFrame for better performance
-    const scrollToActive = () => {
-      const containerTop = container.scrollTop;
-      const containerBottom = containerTop + container.clientHeight;
-      const elementTop = activeElement.offsetTop;
-      const elementBottom = elementTop + activeElement.clientHeight;
-
-      // Only scroll if element is completely out of view (with buffer)
-      const buffer = 50; // pixels
-      const isAboveView = elementTop < containerTop - buffer;
-      const isBelowView = elementBottom > containerBottom + buffer;
-
-      if (isAboveView || isBelowView) {
-        // Use instant scroll to reduce performance impact
-        activeElement.scrollIntoView({
-          behavior: "auto", // Changed from "smooth" to "auto"
-          block: "center",
-        });
-      }
+    const scrollToCenter = () => {
+      // Always center the active caption
+      activeElement.scrollIntoView({
+        behavior: "auto",
+        block: "center",
+      });
     };
 
     // Debounce scroll updates
-    const timeoutId = setTimeout(scrollToActive, 100);
+    const timeoutId = setTimeout(scrollToCenter, 100);
     return () => clearTimeout(timeoutId);
   }, [activeCaption]);
 
