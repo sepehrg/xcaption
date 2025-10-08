@@ -9,13 +9,13 @@
 .input-group {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap;
+  align-items: flex-start;
 }
 
 .input-wrapper {
   position: relative;
   flex: 1;
-  min-width: 300px;
+  min-width: 250px;
 }
 
 .youtube-input {
@@ -210,8 +210,62 @@
   color: #e74c3c;
 }
 
+/* DownSub Link */
+.downsub-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
+  white-space: nowrap;
+  min-height: 48px;
+}
+
+.downsub-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+  text-decoration: none;
+  color: white;
+}
+
+.downsub-link:active {
+  transform: translateY(0);
+}
+
+[data-theme="dark"] .downsub-link {
+  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+  box-shadow: 0 2px 4px rgba(39, 174, 96, 0.2);
+}
+
+[data-theme="dark"] .downsub-link:hover {
+  box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
+}
+
+/* Desktop styles - ensure buttons stay inline */
+@media (min-width: 769px) {
+  .input-group {
+    flex-wrap: nowrap;
+  }
+  
+  .submit-button,
+  .downsub-link {
+    flex-shrink: 0;
+  }
+}
+
 /* Tablet styles */
 @media (max-width: 768px) {
+  .input-group {
+    flex-wrap: wrap;
+  }
+  
   .input-wrapper {
     min-width: 250px;
   }
@@ -222,6 +276,11 @@
   
   .submit-button {
     padding: 14px 20px;
+    font-size: 0.95rem;
+  }
+  
+  .downsub-link {
+    padding: 14px 18px;
     font-size: 0.95rem;
   }
 }
@@ -259,5 +318,13 @@
   .error-message {
     font-size: 1rem;
     padding: 14px;
+  }
+  
+  .downsub-link {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    min-height: 52px;
   }
 }

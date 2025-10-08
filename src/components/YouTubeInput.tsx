@@ -144,6 +144,14 @@ const YouTubeInput: React.FC<YouTubeInputProps> = ({ onVideoLoad }) => {
     setRecentUrls(getRecentUrls());
   };
 
+  const getDownsubUrl = (youtubeUrl: string): string => {
+    return `https://downsub.com/?url=${encodeURIComponent(youtubeUrl)}`;
+  };
+
+  const isValidYouTubeUrl = (url: string): boolean => {
+    return extractVideoId(url) !== null;
+  };
+
   return (
     <div className="youtube-input-container">
       <form onSubmit={handleSubmit} className="youtube-form">
@@ -191,8 +199,20 @@ const YouTubeInput: React.FC<YouTubeInputProps> = ({ onVideoLoad }) => {
           >
             {isLoading ? "Loading..." : "Load Video"}
           </button>
+
+          {url.trim() && isValidYouTubeUrl(url) && (
+            <a
+              href={getDownsubUrl(url)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="downsub-link"
+            >
+              📥 Download Captions
+            </a>
+          )}
         </div>
       </form>
+
       {error && <div className="error-message">{error}</div>}
     </div>
   );
