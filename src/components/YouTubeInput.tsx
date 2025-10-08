@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { YouTubeInputProps } from "../types";
+import { parseSRTContent } from "../utils/captionService";
 import "./YouTubeInput.css";
 
 const RECENT_URLS_KEY = "xcaption_recent_urls";
@@ -38,7 +39,10 @@ const deleteRecentUrl = (urlToDelete: string): void => {
   }
 };
 
-const YouTubeInput: React.FC<YouTubeInputProps> = ({ onVideoLoad }) => {
+const YouTubeInput: React.FC<YouTubeInputProps> = ({
+  onVideoLoad,
+  onCaptionsLoad,
+}) => {
   const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -46,6 +50,7 @@ const YouTubeInput: React.FC<YouTubeInputProps> = ({ onVideoLoad }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Load recent URLs on component mount
   useEffect(() => {
@@ -152,10 +157,23 @@ const YouTubeInput: React.FC<YouTubeInputProps> = ({ onVideoLoad }) => {
     return extractVideoId(url) !== null;
   };
 
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target?.result as string;
+      const captions = parseSRTContent(content);
+      onCaptionsLoad(captions);
+    };
+    reader.readAsText(file);
+  };
+
   return (
     <div className="youtube-input-container">
       <form onSubmit={handleSubmit} className="youtube-form">
-        <div className="input-group">
+        <div className="input-row">
           <div className="input-wrapper">
             <input
               ref={inputRef}
@@ -163,7 +181,7 @@ const YouTubeInput: React.FC<YouTubeInputProps> = ({ onVideoLoad }) => {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               onFocus={handleInputFocus}
-              placeholder="Enter YouTube URL (e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ)"
+              placeholder="Enter YouTube URL"
               className="youtube-input"
               disabled={isLoading}
             />
@@ -192,6 +210,7 @@ const YouTubeInput: React.FC<YouTubeInputProps> = ({ onVideoLoad }) => {
               </div>
             )}
           </div>
+
           <button
             type="submit"
             className="submit-button"
@@ -207,11 +226,32 @@ const YouTubeInput: React.FC<YouTubeInputProps> = ({ onVideoLoad }) => {
               rel="noopener noreferrer"
               className="downsub-link"
             >
-              📥 Download Captions
+              📥 Download Caption
             </a>
           )}
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".srt,.vtt,text/plain,text/srt,text/vtt,application/x-subrip,.txt"
+            onChange={handleFileUpload}
+            style={{ display: "none" }}
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="upload-button"
+          >
+            📁 Upload Caption
+          </button>
         </div>
       </form>
+
+      <small className="upload-help">
+        Upload subtitle/caption files (.srt, .vtt, or .txt)
+        <br />
+        💡 On iPhone: Save captions as .txt if .srt doesn't work
+      </small>
 
       {error && <div className="error-message">{error}</div>}
     </div>

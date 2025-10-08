@@ -68,8 +68,8 @@
 }
 
 .main-content {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 30px;
   background: var(--content-bg);
   border-radius: 15px;
@@ -80,16 +80,32 @@
   transition: all 0.3s ease;
 }
 
+/* Controls section - first row */
+.controls-section {
+  width: 100%;
+}
+
+/* Content section - second row with video and captions side by side */
+.content-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
 @media (min-width: 768px) {
-  .main-content {
+  .content-section {
     grid-template-columns: 1.5fr 1fr;
   }
 }
 
-.video-section {
+.video-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+}
+
+.captions-container {
+  display: flex;
+  flex-direction: column;
 }
 
 /* Tablet styles */

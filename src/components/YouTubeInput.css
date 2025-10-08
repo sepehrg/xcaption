@@ -6,16 +6,17 @@
   width: 100%;
 }
 
-.input-group {
+.input-row {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: flex-start;
+  flex-wrap: nowrap;
 }
 
 .input-wrapper {
   position: relative;
   flex: 1;
-  min-width: 250px;
+  min-width: 200px;
 }
 
 .youtube-input {
@@ -64,18 +65,18 @@
 }
 
 .submit-button {
-  padding: 14px 24px; /* Larger touch target */
+  padding: 12px 16px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
-  /* Minimum touch target size */
   min-height: 48px;
+  flex-shrink: 0;
 }
 
 .submit-button:hover:not(:disabled) {
@@ -214,23 +215,24 @@
 .downsub-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 14px 20px;
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  gap: 6px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
   color: white;
   text-decoration: none;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
+  box-shadow: 0 2px 4px rgba(155, 89, 182, 0.2);
   white-space: nowrap;
   min-height: 48px;
+  flex-shrink: 0;
 }
 
 .downsub-link:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+  box-shadow: 0 4px 8px rgba(155, 89, 182, 0.3);
   text-decoration: none;
   color: white;
 }
@@ -240,34 +242,82 @@
 }
 
 [data-theme="dark"] .downsub-link {
-  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
-  box-shadow: 0 2px 4px rgba(39, 174, 96, 0.2);
+  background: linear-gradient(135deg, #bb8fce 0%, #9b59b6 100%);
+  box-shadow: 0 2px 4px rgba(187, 143, 206, 0.2);
 }
 
 [data-theme="dark"] .downsub-link:hover {
-  box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
+  box-shadow: 0 4px 8px rgba(187, 143, 206, 0.3);
+}
+
+/* Upload Button */
+.upload-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  min-height: 48px;
+  flex-shrink: 0;
+}
+
+.upload-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+.upload-button:active {
+  transform: translateY(0);
+}
+
+[data-theme="dark"] .upload-button {
+  background: linear-gradient(135deg, #5dade2 0%, #3498db 100%);
+  box-shadow: 0 2px 4px rgba(93, 173, 226, 0.2);
+}
+
+[data-theme="dark"] .upload-button:hover {
+  box-shadow: 0 4px 8px rgba(93, 173, 226, 0.3);
+}
+
+/* Upload Help Text */
+.upload-help {
+  display: block;
+  margin-top: 12px;
+  color: #666;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+[data-theme="dark"] .upload-help {
+  color: #95a5a6;
 }
 
 /* Desktop styles - ensure buttons stay inline */
 @media (min-width: 769px) {
-  .input-group {
+  .input-row {
     flex-wrap: nowrap;
-  }
-  
-  .submit-button,
-  .downsub-link {
-    flex-shrink: 0;
   }
 }
 
 /* Tablet styles */
 @media (max-width: 768px) {
-  .input-group {
+  .input-row {
     flex-wrap: wrap;
+    gap: 10px;
   }
   
   .input-wrapper {
-    min-width: 250px;
+    min-width: 200px;
+    flex-basis: 100%;
   }
   
   .youtube-input {
@@ -275,19 +325,24 @@
   }
   
   .submit-button {
-    padding: 14px 20px;
-    font-size: 0.95rem;
+    padding: 12px 18px;
+    font-size: 0.9rem;
   }
   
   .downsub-link {
-    padding: 14px 18px;
-    font-size: 0.95rem;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+  
+  .upload-button {
+    padding: 12px 16px;
+    font-size: 0.9rem;
   }
 }
 
 /* Mobile styles */
 @media (max-width: 480px) {
-  .input-group {
+  .input-row {
     flex-direction: column;
     gap: 12px;
   }
@@ -295,11 +350,12 @@
   .input-wrapper {
     min-width: auto;
     width: 100%;
+    flex-basis: auto;
   }
   
   .youtube-input {
-    padding: 16px; /* Larger touch area */
-    font-size: 1.1rem; /* Slightly larger for readability */
+    padding: 16px;
+    font-size: 1.1rem;
     border-radius: 10px;
   }
   
@@ -312,7 +368,9 @@
     padding: 16px;
     font-size: 1.1rem;
     border-radius: 10px;
-    min-height: 52px; /* Larger touch target */
+    min-height: 52px;
+    text-align: center;
+    justify-content: center;
   }
   
   .error-message {
@@ -326,5 +384,17 @@
     font-size: 1.1rem;
     border-radius: 10px;
     min-height: 52px;
+    text-align: center;
+    justify-content: center;
+  }
+  
+  .upload-button {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    min-height: 52px;
+    text-align: center;
+    justify-content: center;
   }
 }

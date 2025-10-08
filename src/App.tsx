@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import YouTubeInput from "./components/YouTubeInput";
 import YouTubePlayer from "./components/YouTubePlayer";
 import CaptionDisplay from "./components/CaptionDisplay";
-import CaptionUpload from "./components/CaptionUpload";
 import ThemeToggle from "./components/ThemeToggle";
 import { fetchCaptions, CLICKED_CAPTION_TIMEOUT } from "./utils/captionService";
 import { Caption, YouTubePlayerInstance } from "./types";
@@ -230,24 +229,32 @@ const App: React.FC = () => {
         </header>
 
         <main className="main-content">
-          <div className="video-section">
-            <YouTubeInput onVideoLoad={handleVideoLoad} />
-            <CaptionUpload onCaptionsLoad={handleCaptionsUpload} />
-            <YouTubePlayer
-              videoId={videoId}
-              onTimeUpdate={handleTimeUpdate}
-              onPlayerReady={handlePlayerReady}
-              playerRef={playerRef}
+          <div className="controls-section">
+            <YouTubeInput
+              onVideoLoad={handleVideoLoad}
+              onCaptionsLoad={handleCaptionsUpload}
             />
           </div>
+          <div className="content-section">
+            <div className="video-container">
+              <YouTubePlayer
+                videoId={videoId}
+                onTimeUpdate={handleTimeUpdate}
+                onPlayerReady={handlePlayerReady}
+                playerRef={playerRef}
+              />
+            </div>
 
-          <CaptionDisplay
-            captions={captions}
-            currentTime={currentTime}
-            onCaptionClick={handleCaptionClick}
-            isLoading={isLoadingCaptions}
-            lastClickedCaption={lastClickedCaption}
-          />
+            <div className="captions-container">
+              <CaptionDisplay
+                captions={captions}
+                currentTime={currentTime}
+                onCaptionClick={handleCaptionClick}
+                isLoading={isLoadingCaptions}
+                lastClickedCaption={lastClickedCaption}
+              />
+            </div>
+          </div>
 
           {/* Mobile control buttons */}
           <div className="mobile-controls">

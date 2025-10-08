@@ -29,6 +29,7 @@ export interface YouTubePlayerProps {
 
 export interface YouTubeInputProps {
   onVideoLoad: (videoId: string) => Promise<void>;
+  onCaptionsLoad: (captions: Caption[]) => void;
 }
 
 export interface CaptionDisplayProps {
