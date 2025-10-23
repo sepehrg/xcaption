@@ -3,6 +3,7 @@ import { Caption } from "../types";
 // Constants
 const TIME_TOLERANCE = 0.1; // Seconds tolerance for caption timing
 const CLICKED_CAPTION_TIMEOUT = 2000; // How long to prioritize clicked captions
+const API_BASE_URL = "http://localhost:8000";
 
 // Format seconds to MM:SS display format
 export const formatTime = (seconds: number): string => {
@@ -11,10 +12,30 @@ export const formatTime = (seconds: number): string => {
   return `${mins}:${secs.toString().padStart(2, "0")}`;
 };
 
-// Placeholder function - caption fetching is handled via manual upload
+// Fetch captions from the Python backend using yt-dlp
 export const fetchCaptions = async (videoId: string): Promise<Caption[]> => {
-  // YouTube requires OAuth2 for caption downloads, so we use manual upload instead
-  return [];
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/captions/${videoId}`);
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.detail || "Failed to fetch captions");
+    }
+
+    const data = await response.json();
+    return data.captions;
+  } catch (error) {
+    if (error instanceof Error) {
+      // Re-throw with more context
+      if (error.message.includes("Failed to fetch")) {
+        throw new Error(
+          "Cannot connect to caption service. Make sure the backend server is running on port 8000."
+        );
+      }
+      throw error;
+    }
+    throw new Error("Failed to fetch captions");
+  }
 };
 
 // Parse SRT subtitle format into Caption objects

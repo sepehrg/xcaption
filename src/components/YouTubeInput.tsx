@@ -149,10 +149,6 @@ const YouTubeInput: React.FC<YouTubeInputProps> = ({
     setRecentUrls(getRecentUrls());
   };
 
-  const getDownsubUrl = (youtubeUrl: string): string => {
-    return `https://downsub.com/?url=${encodeURIComponent(youtubeUrl)}`;
-  };
-
   const isValidYouTubeUrl = (url: string): boolean => {
     return extractVideoId(url) !== null;
   };
@@ -218,17 +214,6 @@ const YouTubeInput: React.FC<YouTubeInputProps> = ({
           >
             {isLoading ? "Loading..." : "Load Video"}
           </button>
-
-          {url.trim() && isValidYouTubeUrl(url) && (
-            <a
-              href={getDownsubUrl(url)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="downsub-link"
-            >
-              📥 Download Caption
-            </a>
-          )}
 
           <input
             ref={fileInputRef}

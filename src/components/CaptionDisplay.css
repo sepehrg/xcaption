@@ -1,13 +1,13 @@
 .captions-section {
-  background: #f8f9fa;
-  border-radius: 12px;
+  background: transparent;
+  border-radius: 0;
   padding: 12px;
   height: fit-content;
   max-height: 600px;
   overflow-y: auto;
   overflow-x: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e9ecef;
+  box-shadow: none;
+  border: none;
   transition: all 0.3s ease;
   /* Scroll performance optimizations */
   scroll-behavior: auto;
@@ -15,9 +15,9 @@
 }
 
 [data-theme="dark"] .captions-section {
-  background: #34495e;
-  border: 1px solid #4a5f7a;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .captions-title {
@@ -53,7 +53,7 @@
   padding: 10px 16px;
   border-radius: 8px;
   cursor: pointer;
-  background: white;
+  background:#eeecff;
   border: 2px solid transparent;
   position: relative;
   overflow: hidden;
@@ -68,7 +68,7 @@
 }
 
 [data-theme="dark"] .caption-item {
-  background: #2c3e50;
+  background: #374d63;
 }
 
 .caption-item:hover {
@@ -275,7 +275,11 @@
 @media (max-width: 768px) {
   .captions-section {
     max-height: 60vh;
-    padding: 12px;
+    padding: 0; /* Remove container padding */
+    background: transparent; /* Remove background */
+    border: none; /* Remove border */
+    border-radius: 0; /* Remove rounded corners */
+    box-shadow: none; /* Remove shadow */
   }
   
   .captions-title {
@@ -314,8 +318,11 @@
 @media (max-width: 480px) {
   .captions-section {
     max-height: 60vh;
-    padding: 10px;
-    border-radius: 10px;
+    padding: 0; /* Remove container padding */
+    background: transparent; /* Remove background */
+    border: none; /* Remove border */
+    border-radius: 0; /* Remove rounded corners */
+    box-shadow: none; /* Remove shadow */
   }
   
   .captions-title {
