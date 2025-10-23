@@ -38,7 +38,6 @@ const CaptionDisplay: React.FC<CaptionDisplayProps> = ({
   useEffect(() => {
     if (!activeCaptionRef.current || !containerRef.current) return;
 
-    const container = containerRef.current;
     const activeElement = activeCaptionRef.current;
 
     const scrollToCenter = () => {

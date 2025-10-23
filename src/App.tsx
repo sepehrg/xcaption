@@ -59,35 +59,41 @@ const App: React.FC = () => {
     }
   };
 
-  const handleCaptionClick = (time: number, clickedCaption?: Caption): void => {
-    if (playerRef.current) {
-      // Remember which caption was clicked
-      if (clickedCaption) {
-        setLastClickedCaption(clickedCaption);
+  const handleCaptionClick = useCallback(
+    (time: number, clickedCaption?: Caption): void => {
+      if (playerRef.current) {
+        // Remember which caption was clicked
+        if (clickedCaption) {
+          setLastClickedCaption(clickedCaption);
 
-        // Clear after timeout
-        setTimeout(() => setLastClickedCaption(null), CLICKED_CAPTION_TIMEOUT);
+          // Clear after timeout
+          setTimeout(
+            () => setLastClickedCaption(null),
+            CLICKED_CAPTION_TIMEOUT
+          );
+        }
+
+        // Set seeking flag to allow time updates during seek
+        setIsSeeking(true);
+
+        try {
+          // Method 1: Standard seek
+          playerRef.current.seekTo(time, true);
+
+          // Method 2: Small offset to ensure proper seeking
+          setTimeout(() => {
+            if (playerRef.current) {
+              playerRef.current.seekTo(time, true);
+              setCurrentTime(time);
+            }
+          }, 100);
+        } catch (error) {
+          console.error("Seek error:", error);
+        }
       }
-
-      // Set seeking flag to allow time updates during seek
-      setIsSeeking(true);
-
-      try {
-        // Method 1: Standard seek
-        playerRef.current.seekTo(time, true);
-
-        // Method 2: Small offset to ensure proper seeking
-        setTimeout(() => {
-          if (playerRef.current) {
-            playerRef.current.seekTo(time, true);
-            setCurrentTime(time);
-          }
-        }, 100);
-      } catch (error) {
-        console.error("Seek error:", error);
-      }
-    }
-  };
+    },
+    []
+  );
 
   const handlePlayerReady = (player: YouTubePlayerInstance): void => {
     playerRef.current = player;

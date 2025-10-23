@@ -149,10 +149,6 @@ const YouTubeInput: React.FC<YouTubeInputProps> = ({
     setRecentUrls(getRecentUrls());
   };
 
-  const isValidYouTubeUrl = (url: string): boolean => {
-    return extractVideoId(url) !== null;
-  };
-
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
