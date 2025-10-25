@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: xcaption-backend
+    env: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+    healthCheckPath: /
+    plan: free
+
+  - type: web
+    name: xcaption-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://xcaption-backend.onrender.com
+    plan: free

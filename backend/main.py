@@ -17,6 +17,7 @@ app.add_middleware(
         "https://*.railway.app",  # Railway preview deployments
         "https://*.vercel.app",  # Vercel deployments
         "https://*.netlify.app",  # Netlify deployments
+        "https://*.onrender.com",  # Render deployments
     ],
     allow_credentials=True,
     allow_methods=["*"],
