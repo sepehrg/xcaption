@@ -1,0 +1,11 @@
+services:
+  - type: static
+    name: xcaption-frontend
+    buildCommand: npm ci && npm run build
+    publishDir: build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://xcaption-backend.onrender.com
+      - key: NODE_VERSION
+        value: 20.11.0
+    plan: free

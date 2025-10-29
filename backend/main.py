@@ -5,6 +5,7 @@ import subprocess
 import json
 import tempfile
 import re
+import os
 
 app = FastAPI(title="XCaption API", version="1.0.0")
 
