@@ -9,18 +9,11 @@ import os
 
 app = FastAPI(title="XCaption API", version="1.0.0")
 
-# Configure CORS
+# Configure CORS - more permissive for debugging
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "https://*.railway.app",  # Railway preview deployments
-        "https://*.vercel.app",  # Vercel deployments
-        "https://*.netlify.app",  # Netlify deployments
-        "https://*.onrender.com",  # Render deployments
-    ],
-    allow_credentials=True,
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
