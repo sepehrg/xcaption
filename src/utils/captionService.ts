@@ -5,7 +5,7 @@ const TIME_TOLERANCE = 0.1; // Seconds tolerance for caption timing
 const CLICKED_CAPTION_TIMEOUT = 2000; // How long to prioritize clicked captions
 const API_BASE_URL =
   process.env.NODE_ENV === "production"
-    ? process.env.REACT_APP_API_URL || "https://your-app-name.railway.app"
+    ? process.env.REACT_APP_API_URL || "https://xcaption-backend.onrender.com"
     : "http://localhost:8000";
 
 // Format seconds to MM:SS display format
