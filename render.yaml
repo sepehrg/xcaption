@@ -11,10 +11,11 @@ services:
     healthCheckPath: /
     plan: free
 
-  - type: static
+  - type: web
     name: xcaption-frontend
-    buildCommand: ./build.sh
-    publishDir: build
+    env: static
+    buildCommand: npm ci && npm run build
+    startCommand: npx serve -s build -l $PORT
     envVars:
       - key: REACT_APP_API_URL
         value: https://xcaption-backend.onrender.com
