@@ -22,8 +22,9 @@ export interface YouTubeEvent {
 
 export interface YouTubePlayerProps {
   videoId: string | null;
-  onTimeUpdate?: (currentTime: number) => void;
+  onTimeUpdate?: (currentTime: number, forceSave?: boolean) => void;
   onPlayerReady?: (player: YouTubePlayerInstance) => void;
+  onVideoEnded?: () => void;
   playerRef?: React.MutableRefObject<YouTubePlayerInstance | null>;
 }
 

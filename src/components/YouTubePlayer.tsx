@@ -7,12 +7,15 @@ import "./YouTubePlayer.css";
 const TIME_UPDATE_INTERVAL = 100; // ms
 const PLAYER_STATE = {
   PLAYING: 1,
+  PAUSED: 2,
+  ENDED: 5,
 } as const;
 
 const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   videoId,
   onTimeUpdate,
   onPlayerReady,
+  onVideoEnded,
   playerRef,
 }) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -48,7 +51,20 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   };
 
   const onStateChange = (event: YouTubeEvent) => {
-    // Handle player state changes if needed
+    if (
+      onTimeUpdate &&
+      (event.data === PLAYER_STATE.PAUSED || event.data === PLAYER_STATE.ENDED)
+    ) {
+      const currentTime = event.target.getCurrentTime();
+      if (currentTime > 0) {
+        const roundedTime = Math.round(currentTime * 10) / 10;
+        onTimeUpdate(roundedTime, true);
+      }
+    }
+
+    if (event.data === PLAYER_STATE.ENDED && onVideoEnded) {
+      onVideoEnded();
+    }
   };
 
   const onError = (event: YouTubeEvent) => {

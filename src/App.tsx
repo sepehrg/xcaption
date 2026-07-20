@@ -4,6 +4,12 @@ import YouTubePlayer from "./components/YouTubePlayer";
 import CaptionDisplay from "./components/CaptionDisplay";
 import ThemeToggle from "./components/ThemeToggle";
 import { fetchCaptions, CLICKED_CAPTION_TIMEOUT } from "./utils/captionService";
+import {
+  getSavedPosition,
+  savePosition,
+  clearPosition,
+  SAVE_INTERVAL_MS,
+} from "./utils/playbackProgress";
 import { Caption, YouTubePlayerInstance } from "./types";
 import "./App.css";
 
@@ -23,12 +29,34 @@ const App: React.FC = () => {
     null
   );
   const playerRef = useRef<YouTubePlayerInstance | null>(null);
+  const lastSaveRef = useRef<{ time: number; at: number }>({ time: 0, at: 0 });
+
+  const persistPosition = (
+    id: string,
+    time: number,
+    force = false
+  ): void => {
+    const now = Date.now();
+    if (
+      force ||
+      now - lastSaveRef.current.at >= SAVE_INTERVAL_MS ||
+      Math.abs(time - lastSaveRef.current.time) >= 10
+    ) {
+      savePosition(id, time);
+      lastSaveRef.current = { time, at: now };
+    }
+  };
 
   const handleVideoLoad = async (id: string): Promise<void> => {
+    if (videoId && playerRef.current) {
+      savePosition(videoId, playerRef.current.getCurrentTime());
+    }
+
+    const savedTime = getSavedPosition(id) ?? 0;
     setVideoId(id);
     setIsLoadingCaptions(true);
     setCaptions([]);
-    setCurrentTime(0);
+    setCurrentTime(savedTime);
 
     try {
       const fetchedCaptions = await fetchCaptions(id);
@@ -40,7 +68,7 @@ const App: React.FC = () => {
     }
   };
 
-  const handleTimeUpdate = (time: number): void => {
+  const handleTimeUpdate = (time: number, forceSave = false): void => {
     // Round to 1 decimal place for consistency
     const roundedTime = Math.round(time * 10) / 10;
 
@@ -56,6 +84,10 @@ const App: React.FC = () => {
       if (isSeeking) {
         setIsSeeking(false);
       }
+    }
+
+    if (videoId) {
+      persistPosition(videoId, roundedTime, forceSave);
     }
   };
 
@@ -89,9 +121,30 @@ const App: React.FC = () => {
     }
   };
 
-  const handlePlayerReady = (player: YouTubePlayerInstance): void => {
-    playerRef.current = player;
-  };
+  const handlePlayerReady = useCallback(
+    (player: YouTubePlayerInstance): void => {
+      playerRef.current = player;
+
+      if (videoId) {
+        const savedTime = getSavedPosition(videoId);
+        if (savedTime && savedTime > 5) {
+          const duration = player.getDuration();
+          if (!duration || savedTime < duration - 5) {
+            setIsSeeking(true);
+            player.seekTo(savedTime, true);
+            setCurrentTime(savedTime);
+          }
+        }
+      }
+    },
+    [videoId]
+  );
+
+  const handleVideoEnded = useCallback((): void => {
+    if (videoId) {
+      clearPosition(videoId);
+    }
+  }, [videoId]);
 
   const handleCaptionsUpload = (uploadedCaptions: Caption[]): void => {
     setCaptions(uploadedCaptions);
@@ -220,6 +273,21 @@ const App: React.FC = () => {
     };
   }, [handleKeyDown]);
 
+  // Save playback position when leaving or switching videos
+  useEffect(() => {
+    const saveCurrentPosition = (): void => {
+      if (videoId && playerRef.current) {
+        savePosition(videoId, playerRef.current.getCurrentTime());
+      }
+    };
+
+    window.addEventListener("beforeunload", saveCurrentPosition);
+    return () => {
+      saveCurrentPosition();
+      window.removeEventListener("beforeunload", saveCurrentPosition);
+    };
+  }, [videoId]);
+
   return (
     <div className="app">
       <ThemeToggle />
@@ -241,6 +309,7 @@ const App: React.FC = () => {
                 videoId={videoId}
                 onTimeUpdate={handleTimeUpdate}
                 onPlayerReady={handlePlayerReady}
+                onVideoEnded={handleVideoEnded}
                 playerRef={playerRef}
               />
             </div>
