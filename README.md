@@ -118,5 +118,3 @@ This will build the app and deploy it to the `gh-pages` branch of your repositor
 ## License
 
 This project is open source and available under the MIT License.
-
-#
